@@ -25,7 +25,7 @@ You can check documentation [here](https://www.rubydoc.info/gems/vkdonate/).
 To interact with API you are to initialize client firstly:
 
 ```ruby
-client = Vkdonate::Client("API KEY GOES HERE")
+client = Vkdonate::Client.new("API KEY GOES HERE")
 ```
 
 After that you can call method `Client#donates` which returnes array of `Donate` objects:
