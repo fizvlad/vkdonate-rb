@@ -5,5 +5,7 @@
 /doc/
 /pkg/
 /spec/reports/
+/spec/cassetes/
 /tmp/
 .env
+.byebug_history
