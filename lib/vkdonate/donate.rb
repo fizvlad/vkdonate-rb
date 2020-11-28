@@ -1,9 +1,7 @@
 module Vkdonate
-
   ##
   # Single donation
   class Donate
-
     ##
     # @return [Integer] Unique payment ID.
     attr_reader :id
@@ -23,17 +21,17 @@ module Vkdonate
     ##
     # @return [String, nil] User message or +nil+ if empty.
     attr_reader :msg
-    alias_method :message, :msg
+    alias message msg
 
     ##
     # @return [Boolean] Whether donation is anonymous.
     attr_reader :anon
-    alias_method :anon?, :anon
+    alias anon? anon
 
     ##
     # @return [Boolean] Whether donate is visible in group.
     attr_reader :visible
-    alias_method :visible?, :visible
+    alias visible? visible
 
     ##
     # @return [String] Human readable information.
@@ -59,7 +57,7 @@ module Vkdonate
       @uid = options[:uid].to_i
 
       @date = options[:date]
-      raise unless DateTime === @date
+      raise unless @date.is_a?(DateTime)
 
       @sum = options[:sum].to_i
 
@@ -78,17 +76,15 @@ module Vkdonate
     #
     # @return [Donate]
     def self.from_json(hash)
-      self.new(
-        id: hash["id"].to_i,
-        uid: hash["uid"].to_i,
-        date: DateTime.parse(hash["date"] + " #{TIME_OFFSET}"),
-        sum: hash["sum"].to_i,
-        msg: hash["msg"].empty? ? nil : hash["msg"],
-        anon: !hash["anon"].to_i.zero?,
-        visible: !hash["visible"].to_i.zero?
+      new(
+        id: hash['id'].to_i,
+        uid: hash['uid'].to_i,
+        date: DateTime.parse(hash['date'] + " #{TIME_OFFSET}"),
+        sum: hash['sum'].to_i,
+        msg: hash['msg'].empty? ? nil : hash['msg'],
+        anon: !hash['anon'].to_i.zero?,
+        visible: !hash['visible'].to_i.zero?
       )
     end
-
   end
-
 end

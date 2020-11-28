@@ -1,33 +1,32 @@
-require "vkdonate/version"
-require "vkdonate/donate"
+require 'vkdonate/version'
+require 'vkdonate/donate'
 
-require "net/http"
-require "json"
-require "date"
+require 'net/http'
+require 'json'
+require 'date'
 
 ##
 # Main module.
 module Vkdonate
-
   ##
   # URI for requests.
-  REQUEST_URI = URI("https://api.vkdonate.ru")
+  REQUEST_URI = URI('https://api.vkdonate.ru')
 
   ##
   # Array of available actions.
-  ACTIONS = [:donates]
+  ACTIONS = [:donates].freeze
 
   ##
   # Array of available sort-by.
-  SORT = [:date, :sum]
+  SORT = %i[date sum].freeze
 
   ##
   # Array of available order-by.
-  ORDER = [:asc, :desc]
+  ORDER = %i[asc desc].freeze
 
   ##
   # Time offset of API server.
-  TIME_OFFSET = "UTC+3"
+  TIME_OFFSET = 'UTC+3'.freeze
 
   ##
   # Requests timeout in seconds
@@ -64,33 +63,32 @@ module Vkdonate
   # @param api_key [String]
   # @!macro request
   def self.request(api_key, action, options = {})
-    raise "Unknown action" unless ACTIONS.include? action
+    raise 'Unknown action' unless ACTIONS.include? action
 
     count = options[:count] || 10
     offset = options[:offset] || 0
     sort = options[:sort] || :date
     order = options[:order] || :desc
 
-    raise "Count is out of range" unless count >= 1 && count <= 50
-    raise "Offset is out of range" unless offset >= 0
-    raise "Unknown sorting" unless SORT.include? sort
-    raise "Unknown ordering" unless ORDER.include? order
+    raise 'Count is out of range' unless count >= 1 && count <= 50
+    raise 'Offset is out of range' unless offset >= 0
+    raise 'Unknown sorting' unless SORT.include? sort
+    raise 'Unknown ordering' unless ORDER.include? order
 
     res = Net::HTTP.post_form(REQUEST_URI,
-      key: api_key.to_s,
-      action: action.to_s,
-      count: count.to_i,
-      offset: offset.to_i,
-      sort: sort.to_s,
-      order: order.to_s
-    )
+                              key: api_key.to_s,
+                              action: action.to_s,
+                              count: count.to_i,
+                              offset: offset.to_i,
+                              sort: sort.to_s,
+                              order: order.to_s)
 
     json = JSON.parse res.body
 
-    if json["success"]
-      json["donates"].map { |e| Donate.from_json(e) }
+    if json['success']
+      json['donates'].map { |e| Donate.from_json(e) }
     else
-      raise json["text"]
+      raise json['text']
     end
   end
 
@@ -104,14 +102,13 @@ module Vkdonate
   ##
   # Client which saves API key.
   class Client
-
     ##
     # New client to work with API.
     #
     # @param api_key [String]
     def initialize(api_key)
       @api_key = api_key.to_s
-      raise "API key can not be empty" if @api_key.empty?
+      raise 'API key can not be empty' if @api_key.empty?
     end
 
     ##
@@ -125,7 +122,5 @@ module Vkdonate
     def donates(options = {})
       Vkdonate.donates(@api_key, options)
     end
-
   end
-
 end
