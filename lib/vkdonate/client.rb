@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module VkDonate
+module Vkdonate
   # Client which saves API key
   class Client
     # New client to work with API
