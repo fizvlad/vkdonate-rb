@@ -1,6 +1,6 @@
 # Vkdonate
 
-This is small non-official gem which provides interface to interact with vkdonate.ru API.
+This is small non-official gem which provides interface to interact with [vkdonate.ru API](https://vkdonate.ru/help#api).
 
 ## Installation
 
