@@ -11,13 +11,13 @@ module VkDonate
     end
 
     # @see VkDonate.request
-    def request(action, options = {})
-      Vkdonate.request(@api_key, action, options)
+    def request(action, **options)
+      Vkdonate.request(@api_key, action, **options)
     end
 
     # @see VkDonate.donates
-    def donates(options = {})
-      Vkdonate.donates(@api_key, options)
+    def donates(**options)
+      Vkdonate.donates(@api_key, **options)
     end
   end
 end
