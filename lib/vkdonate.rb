@@ -10,7 +10,7 @@ require 'vkdonate/donate'
 # Main module
 module Vkdonate
   # Gem version
-  VERSION = '1.0.2'
+  VERSION = '1.1.0'
   public_constant :VERSION
 
   # URI for requests
