@@ -15,7 +15,7 @@ module Vkdonate
     # @return [Integer] Size of donation
     attr_reader :sum
 
-    # @return [String, nil] User message or +nil+ if empty
+    # @return [String] User message or +nil+ if empty
     attr_reader :msg
     alias message msg
 
@@ -33,25 +33,17 @@ module Vkdonate
     # @option options [Integer] uid
     # @option options [DateTime] date
     # @option options [Integer] sum
-    # @option options [String, nil] msg
+    # @option options [String] msg
     # @option options [Boolean] anon
     # @option options [Boolean] visible
-    def initialize(options)
-      @id = options[:id].to_i
-
-      @uid = options[:uid].to_i
-
-      @date = options[:date]
-      raise unless @date.is_a?(DateTime)
-
-      @sum = options[:sum].to_i
-
-      @msg = options[:msg].to_s
-      @msg = nil if @msg.empty?
-
-      @anon = !!options[:anon]
-
-      @visible = !!options[:visible]
+    def initialize(id:, uid:, date:, sum:, msg:, anon:, visible:)
+      @id = id
+      @uid = uid
+      @date = date
+      @sum = sum
+      @msg = msg
+      @anon = anon
+      @visible = visible
     end
 
     # Parse from JSON hash.
@@ -59,13 +51,13 @@ module Vkdonate
     # @return [Donate]
     def self.from_json(hash)
       new(
-        id: hash['id'].to_i,
-        uid: hash['uid'].to_i,
+        id: Integer(hash['id'], 10),
+        uid: Integer(hash['uid'], 10),
         date: DateTime.parse(hash['date'] + " #{TIME_OFFSET}"),
-        sum: hash['sum'].to_i,
-        msg: hash['msg'].empty? ? nil : hash['msg'],
-        anon: !hash['anon'].to_i.zero?,
-        visible: !hash['visible'].to_i.zero?
+        sum: Integer(hash['sum'], 10),
+        msg: hash['msg'].to_s,
+        anon: Integer(hash['anon'], 10) != 0,
+        visible: Integer(hash['visible'], 10) != 0
       )
     end
 
