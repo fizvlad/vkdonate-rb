@@ -14,6 +14,8 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'https://github.com/fizvlad/vkdonate-rb'
   spec.license       = 'MIT'
 
+  spec.required_ruby_version = '>=2.7.1'
+
   spec.metadata['homepage_uri'] = spec.homepage
   spec.metadata['source_code_uri'] = 'https://github.com/fizvlad/vkdonate-rb'
   spec.metadata['changelog_uri'] = 'https://github.com/fizvlad/vkdonate-rb/releases'
@@ -24,4 +26,6 @@ Gem::Specification.new do |spec|
     `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   end
   spec.require_paths = ['lib']
+
+  spec.add_runtime_dependency('json', '~> 2.3')
 end
