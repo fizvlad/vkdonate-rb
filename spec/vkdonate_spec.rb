@@ -48,6 +48,12 @@ RSpec.describe Vkdonate, :vcr do
 
       it { expect { result }.to raise_error(RuntimeError) }
     end
+
+    context 'when wrong api key' do
+      let(:api_key) { 'aaa' }
+
+      it { expect { result }.to raise_error(RuntimeError) }
+    end
   end
 
   describe '.donates' do
