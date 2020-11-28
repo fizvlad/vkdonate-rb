@@ -18,7 +18,7 @@ module Vkdonate
   private_constant :REQUEST_URI
 
   # Array of available actions
-  ACTIONS = [:donates].freeze
+  ACTIONS = %i[donates].freeze
   private_constant :ACTIONS
 
   # Array of available sort-by
@@ -44,8 +44,6 @@ module Vkdonate
   #    @param order [Symbol] order by
   #    @see Vkdonate::SORT
   #    @see Vkdonate::ORDER
-  #
-  # @!macro [new] donates
 
   class << self
     # Simple POST request to API
@@ -57,8 +55,8 @@ module Vkdonate
     def request(api_key, action, count: 10, offset: 0, sort: :date, order: :desc)
       validate_request_options(action, count, offset, sort, order)
 
-      res = Net::HTTP.post_form(REQUEST_URI, key: api_key.to_s, action: action.to_s, count: Integer(count, 10),
-                                             offset: Integer(offset, 10), sort: sort.to_s, order: order.to_s)
+      res = Net::HTTP.post_form(REQUEST_URI, key: api_key, action: action.to_s, count: count,
+                                             offset: offset, sort: sort.to_s, order: order.to_s)
 
       json = JSON.parse res.body
 

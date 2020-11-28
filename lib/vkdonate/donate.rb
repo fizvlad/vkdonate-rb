@@ -51,13 +51,13 @@ module Vkdonate
     # @return [Donate]
     def self.from_json(hash)
       new(
-        id: Integer(hash['id'], 10),
-        uid: Integer(hash['uid'], 10),
+        id: hash['id'],
+        uid: hash['uid'],
         date: DateTime.parse(hash['date'] + " #{TIME_OFFSET}"),
-        sum: Integer(hash['sum'], 10),
+        sum: hash['sum'],
         msg: hash['msg'].to_s,
-        anon: Integer(hash['anon'], 10) != 0,
-        visible: Integer(hash['visible'], 10) != 0
+        anon: Integer(hash['anon'].to_s, 10) != 0,
+        visible: Integer(hash['visible'].to_s, 10) != 0
       )
     end
 
